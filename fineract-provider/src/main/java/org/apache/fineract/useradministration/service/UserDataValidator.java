@@ -57,13 +57,17 @@ public final class UserDataValidator {
     public static final String ROLES = "roles";
     public static final String SEND_PASSWORD_TO_EMAIL = "sendPasswordToEmail";
     public static final String STAFF_ID = "staffId";
+    public static final String FRONT_ID = "frontId";
+    public static final String PHOTO_OF_INDIVIDUAL = "photoOfIndividual";
+    public static final String BACK_ID = "backId";
     public static final String PASSWORD_NEVER_EXPIRES = "passwordNeverExpires";
     /**
      * The parameters supported for this command.
      */
     private static final Set<String> SUPPORTED_PARAMETERS = new HashSet<>(
             Arrays.asList(USERNAME, FIRSTNAME, LASTNAME, PASSWORD, REPEAT_PASSWORD, EMAIL, OFFICE_ID, NOT_SELECTED_ROLES, ROLES,
-                    SEND_PASSWORD_TO_EMAIL, STAFF_ID, PASSWORD_NEVER_EXPIRES, AppUserConstants.IS_SELF_SERVICE_USER, CLIENTS));
+                    SEND_PASSWORD_TO_EMAIL, STAFF_ID, PASSWORD_NEVER_EXPIRES, AppUserConstants.IS_SELF_SERVICE_USER, CLIENTS,
+                    FRONT_ID,PHOTO_OF_INDIVIDUAL,BACK_ID)); // TODO: 25/02/2024 add your columns here
     public static final String PASSWORD_NEVER_EXPIRE = "passwordNeverExpire";
 
     private final FromJsonHelper fromApiJsonHelper;
@@ -80,7 +84,7 @@ public final class UserDataValidator {
         if (StringUtils.isBlank(json)) {
             throw new InvalidJsonException();
         }
-
+        // TODO: 25/02/2024 take care of the validation bit
         final Type typeOfMap = new TypeToken<Map<String, Object>>() {
 
         }.getType();

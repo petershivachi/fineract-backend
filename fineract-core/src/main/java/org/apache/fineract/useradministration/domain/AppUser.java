@@ -58,7 +58,7 @@ import org.springframework.security.core.userdetails.User;
 @Entity
 @Table(name = "m_appuser", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }, name = "username_org"))
 public class AppUser extends AbstractPersistableCustom implements PlatformUser {
-
+    // TODO: 25/02/2024  add the column here
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
@@ -119,13 +119,24 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
     @Column(name = "cannot_change_password", nullable = true)
     private Boolean cannotChangePassword;
 
+
+    @Column(name = "frontId", nullable = false)
+    private String frontId;
+
+    @Column(name = "photoOfIndividual", nullable = false)
+    private String photoOfIndividual;
+
+    @Column(name = "backId", nullable = false)
+    private String backId;
     public static AppUser fromJson(final Office userOffice, final Staff linkedStaff, final Set<Role> allRoles,
             final Collection<Client> clients, final JsonCommand command) {
 
         final String username = command.stringValueOfParameterNamed("username");
         String password = command.stringValueOfParameterNamed("password");
         final Boolean sendPasswordToEmail = command.booleanObjectValueOfParameterNamed("sendPasswordToEmail");
-
+        final String frontId = command.stringValueOfParameterNamed("frontId");
+        final String backId = command.stringValueOfParameterNamed("backId");
+        final String photoOfIndividual = command.stringValueOfParameterNamed("photoOfIndividual");
         if (sendPasswordToEmail) {
             password = new RandomPasswordGenerator(13).generate();
         }
@@ -155,7 +166,7 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
         final boolean isSelfServiceUser = command.booleanPrimitiveValueOfParameterNamed(AppUserConstants.IS_SELF_SERVICE_USER);
 
         return new AppUser(userOffice, user, allRoles, email, firstname, lastname, linkedStaff, passwordNeverExpire, isSelfServiceUser,
-                clients, cannotChangePassword);
+                clients, cannotChangePassword, photoOfIndividual,frontId,backId);
     }
 
     protected AppUser() {
@@ -166,7 +177,8 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
 
     public AppUser(final Office office, final User user, final Set<Role> roles, final String email, final String firstname,
             final String lastname, final Staff staff, final boolean passwordNeverExpire, final boolean isSelfServiceUser,
-            final Collection<Client> clients, final Boolean cannotChangePassword) {
+            final Collection<Client> clients, final Boolean cannotChangePassword, final String _photoOfIndividual ,
+                   final String _frontId, final String _backId) {
         this.office = office;
         this.email = email.trim();
         this.username = user.getUsername().trim();
@@ -185,6 +197,9 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
         this.isSelfServiceUser = isSelfServiceUser;
         this.appUserClientMappings = createAppUserClientMappings(clients);
         this.cannotChangePassword = cannotChangePassword;
+        this.photoOfIndividual = _photoOfIndividual;
+        this.frontId = _frontId;
+        this.backId = _backId;
     }
 
     public EnumOptionData organisationalRoleData() {
@@ -480,6 +495,30 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
 
     public boolean canNotWithdrawByClientLoanInPast() {
         return hasNotPermissionForAnyOf("ALL_FUNCTIONS", "WITHDRAWINPAST_LOAN");
+    }
+
+    public String getFrontId() {
+        return frontId;
+    }
+
+    public void setFrontId(String frontId) {
+        this.frontId = frontId;
+    }
+
+    public String getPhotoOfIndividual() {
+        return photoOfIndividual;
+    }
+
+    public void setPhotoOfIndividual(String photoOfIndividual) {
+        this.photoOfIndividual = photoOfIndividual;
+    }
+
+    public String getBackId() {
+        return backId;
+    }
+
+    public void setBackId(String backId) {
+        this.backId = backId;
     }
 
     public boolean canNotDisburseLoanInPast() {

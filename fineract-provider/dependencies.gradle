@@ -193,6 +193,9 @@ dependencies {
     implementation 'org.apache.commons:commons-math3'
 
     implementation 'io.github.classgraph:classgraph'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.16.1'
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2.1'
+
 
     // testCompile dependencies are ONLY used in src/test, not src/main.
     // Do NOT repeat dependencies which are ALREADY in implementation or runtimeOnly!

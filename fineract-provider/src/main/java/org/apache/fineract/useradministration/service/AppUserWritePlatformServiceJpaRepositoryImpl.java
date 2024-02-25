@@ -124,7 +124,7 @@ public class AppUserWritePlatformServiceJpaRepositoryImpl implements AppUserWrit
             } else {
                 clients = null;
             }
-
+            // TODO: 25/02/2024 Ensure you pass the urls to the appuser object
             AppUser appUser = AppUser.fromJson(userOffice, linkedStaff, allRoles, clients, command);
 
             final Boolean sendPasswordToEmail = command.booleanObjectValueOfParameterNamed("sendPasswordToEmail");
