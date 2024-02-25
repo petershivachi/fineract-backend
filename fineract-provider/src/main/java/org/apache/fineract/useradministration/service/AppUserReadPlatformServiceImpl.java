@@ -97,6 +97,11 @@ public class AppUserReadPlatformServiceImpl implements AppUserReadPlatformServic
         return AppUserData.template(offices, availableRoles, selfServiceRoles);
     }
 
+    public Collection<AppUserData> retrieveByAccountType(){
+        // TODO: 25/02/2024 implement the logic to pull users of the passed type
+        throw new IllegalStateException("Not implemented ");
+    }
+
     @Override
     public AppUserData retrieveUser(final Long userId) {
 
@@ -126,7 +131,8 @@ public class AppUserReadPlatformServiceImpl implements AppUserReadPlatformServic
 
         AppUserData retUser = AppUserData.instance(user.getId(), user.getUsername(), user.getEmail(), user.getOffice().getId(),
                 user.getOffice().getName(), user.getFirstname(), user.getLastname(), availableRoles, null, selectedUserRoles, linkedStaff,
-                user.getPasswordNeverExpires(), user.isSelfServiceUser(),user.getPhotoOfIndividual(),user.getFrontId(), user.getBackId());
+                user.getPasswordNeverExpires(), user.isSelfServiceUser(),user.getPhotoOfIndividual(),user.getFrontId(), user.getBackId(), user.getAccountType(),
+                user.getEmployeer(),user.getEmployed());
 
         if (retUser.isSelfServiceUser()) {
             Set<ClientData> clients = new HashSet<>();
@@ -168,6 +174,9 @@ public class AppUserReadPlatformServiceImpl implements AppUserReadPlatformServic
             final String frontId = rs.getString("frontId");
             final String photoOfIndividual = rs.getString("photoOfIndividual");
             final String backId = rs.getString("backId");
+            final String accountType= rs.getString("accountType") ;
+            final String employeer = rs.getString("employeer");
+            final Boolean employed = rs.getBoolean("employed");
 
             final StaffData linkedStaff;
             if (staffId != null) {
@@ -176,13 +185,13 @@ public class AppUserReadPlatformServiceImpl implements AppUserReadPlatformServic
                 linkedStaff = null;
             }
             return AppUserData.instance(id, username, email, officeId, officeName, firstname, lastname, null, null, selectedRoles,
-                    linkedStaff, passwordNeverExpire, isSelfServiceUser,photoOfIndividual,frontId,backId);
+                    linkedStaff, passwordNeverExpire, isSelfServiceUser,photoOfIndividual,frontId,backId,accountType,employeer,employed);
         }
 
         public String schema() {
             return " u.id as id, u.username as username, u.firstname as firstname, u.lastname as lastname, u.email as email, u.password_never_expires as passwordNeverExpires, "
                     + " u.office_id as officeId, o.name as officeName, u.staff_id as staffId, u.is_self_service_user as isSelfServiceUser, u.photoOfIndividual as photoOfIndividual,"
-                    + " u.frontId as frontId, u.backId as backId from m_appuser u "
+                    + " u.frontId as frontId, u.backId as backId, u.accountType as accountType, u.employeer as employeer, u.employed as employed from m_appuser u "
                     + " join m_office o on o.id = u.office_id where o.hierarchy like ? and u.is_deleted=false order by u.username";
         }
 

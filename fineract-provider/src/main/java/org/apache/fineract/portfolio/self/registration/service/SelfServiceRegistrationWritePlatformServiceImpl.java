@@ -263,7 +263,8 @@ public class SelfServiceRegistrationWritePlatformServiceImpl implements SelfServ
             List<Client> clients = new ArrayList<>(Arrays.asList(client));
             User user = new User(selfServiceRegistration.getUsername(), selfServiceRegistration.getPassword(), authorities);
             AppUser appUser = new AppUser(client.getOffice(), user, allRoles, selfServiceRegistration.getEmail(), client.getFirstname(),
-                    client.getLastname(), null, passwordNeverExpire, isSelfServiceUser, clients, null, null,null,null);
+                    client.getLastname(), null, passwordNeverExpire, isSelfServiceUser, clients,
+                    null, null,null,null,null,null,null);
             this.userDomainService.create(appUser, true);
             return appUser;
 

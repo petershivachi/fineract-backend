@@ -60,6 +60,9 @@ public final class UserDataValidator {
     public static final String FRONT_ID = "frontId";
     public static final String PHOTO_OF_INDIVIDUAL = "photoOfIndividual";
     public static final String BACK_ID = "backId";
+    public static final String ACCOUNT_TYPE = "accountType";
+    public static final String EMPLOYEER = "employeer";
+    public static final String EMPLOYED = "employed";
     public static final String PASSWORD_NEVER_EXPIRES = "passwordNeverExpires";
     /**
      * The parameters supported for this command.
@@ -67,7 +70,7 @@ public final class UserDataValidator {
     private static final Set<String> SUPPORTED_PARAMETERS = new HashSet<>(
             Arrays.asList(USERNAME, FIRSTNAME, LASTNAME, PASSWORD, REPEAT_PASSWORD, EMAIL, OFFICE_ID, NOT_SELECTED_ROLES, ROLES,
                     SEND_PASSWORD_TO_EMAIL, STAFF_ID, PASSWORD_NEVER_EXPIRES, AppUserConstants.IS_SELF_SERVICE_USER, CLIENTS,
-                    FRONT_ID,PHOTO_OF_INDIVIDUAL,BACK_ID)); // TODO: 25/02/2024 add your columns here
+                    FRONT_ID,PHOTO_OF_INDIVIDUAL,BACK_ID,ACCOUNT_TYPE,EMPLOYED,EMPLOYEER)); // TODO: 25/02/2024 add your columns here
     public static final String PASSWORD_NEVER_EXPIRE = "passwordNeverExpire";
 
     private final FromJsonHelper fromApiJsonHelper;

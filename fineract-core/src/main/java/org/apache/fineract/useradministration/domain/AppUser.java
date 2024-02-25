@@ -58,7 +58,6 @@ import org.springframework.security.core.userdetails.User;
 @Entity
 @Table(name = "m_appuser", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }, name = "username_org"))
 public class AppUser extends AbstractPersistableCustom implements PlatformUser {
-    // TODO: 25/02/2024  add the column here
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
@@ -125,9 +124,16 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
 
     @Column(name = "photoOfIndividual", nullable = false)
     private String photoOfIndividual;
-
     @Column(name = "backId", nullable = false)
     private String backId;
+    @Column(name = "accountType", nullable = true)
+    private String accountType ;
+    @Column(name = "employeer", nullable = true)
+    private String employeer ;
+    @Column(name = "employed", nullable = true)
+    private Boolean employed ;
+
+
     public static AppUser fromJson(final Office userOffice, final Staff linkedStaff, final Set<Role> allRoles,
             final Collection<Client> clients, final JsonCommand command) {
 
@@ -137,6 +143,9 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
         final String frontId = command.stringValueOfParameterNamed("frontId");
         final String backId = command.stringValueOfParameterNamed("backId");
         final String photoOfIndividual = command.stringValueOfParameterNamed("photoOfIndividual");
+        final String accountType = command.stringValueOfParameterNamed("accountType");
+        final String employeer = command.stringValueOfParameterNamed("employeer");
+        final Boolean employed = command.booleanObjectValueOfParameterNamed("employed");
         if (sendPasswordToEmail) {
             password = new RandomPasswordGenerator(13).generate();
         }
@@ -166,7 +175,7 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
         final boolean isSelfServiceUser = command.booleanPrimitiveValueOfParameterNamed(AppUserConstants.IS_SELF_SERVICE_USER);
 
         return new AppUser(userOffice, user, allRoles, email, firstname, lastname, linkedStaff, passwordNeverExpire, isSelfServiceUser,
-                clients, cannotChangePassword, photoOfIndividual,frontId,backId);
+                clients, cannotChangePassword, photoOfIndividual,frontId,backId,accountType,employeer,employed);
     }
 
     protected AppUser() {
@@ -178,7 +187,8 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
     public AppUser(final Office office, final User user, final Set<Role> roles, final String email, final String firstname,
             final String lastname, final Staff staff, final boolean passwordNeverExpire, final boolean isSelfServiceUser,
             final Collection<Client> clients, final Boolean cannotChangePassword, final String _photoOfIndividual ,
-                   final String _frontId, final String _backId) {
+                   final String _frontId, final String _backId,final String _accountType, final String _employeer,
+                   final Boolean _employed) {
         this.office = office;
         this.email = email.trim();
         this.username = user.getUsername().trim();
@@ -200,6 +210,9 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
         this.photoOfIndividual = _photoOfIndividual;
         this.frontId = _frontId;
         this.backId = _backId;
+        this.employed = _employed;
+        this.employeer = _employeer;
+        this.accountType = _accountType;
     }
 
     public EnumOptionData organisationalRoleData() {
@@ -519,6 +532,30 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
 
     public void setBackId(String backId) {
         this.backId = backId;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getEmployeer() {
+        return employeer;
+    }
+
+    public void setEmployeer(String employeer) {
+        this.employeer = employeer;
+    }
+
+    public Boolean getEmployed() {
+        return employed;
+    }
+
+    public void setEmployed(Boolean employed) {
+        this.employed = employed;
     }
 
     public boolean canNotDisburseLoanInPast() {

@@ -210,7 +210,6 @@ public class UsersApiResource {
 
         final CommandProcessingResult result = this.commandsSourceWritePlatformService.logCommandSource(commandRequest);
 
-//        return "Yes sir";
         return this.toApiJsonSerializer.serialize(result);
     }
 

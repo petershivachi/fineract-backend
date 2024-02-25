@@ -10,7 +10,6 @@ import org.apache.fineract.useradministration.domain.WebResponse;
 import org.apache.fineract.useradministration.starter.ApplicationConfigs;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -69,13 +68,8 @@ public class CloudinaryService {
     }
 
     public String deleteFile() {
-        try {
-
-            return "done";
-        } catch (Exception ex) {
-
-            return "done";
-        }
+        // TODO: 25/02/2024 to be implemented
+        throw new IllegalStateException("Not implemented");
     }
 
 
